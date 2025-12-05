@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <title>Abertura de Chamado - UNIEURO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e94bf 0%, #003ac7 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        
+        .gear {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .gear-1 {
+            top: 10%;
+            left: 5%;
+            width: 120px;
+            height: 120px;
+            animation: rotateClockwise 20s linear infinite;
+        }
+        
+        .gear-2 {
+            bottom: 15%;
+            right: 8%;
+            width: 80px;
+            height: 80px;
+            animation: rotateAntiClockwise 15s linear infinite;
+        }
+        
+        .gear-3 {
+            top: 40%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            animation: rotateClockwise 12s linear infinite;
+        }
+        
+        @keyframes rotateClockwise {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotateAntiClockwise {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        
+        
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-img {
+            height: 200px;
+            width: auto;
+        }
+        
+        .logo-text {
+            color: #011d41;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            color: #011d41;
+            font-size: 30px;
+            font-weight: 500;
+            margin-top: 5px;
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+        }
+        
+        .subtitle::before,
+        .subtitle::after {
+            content: "⚙️";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+        }
+        
+        .subtitle::before {
+            left: 0;
+        }
+        
+        .subtitle::after {
+            right: 0;
+        }
+        
+        
+        .container {
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 61, 128, 0.1);
+            border: 1px solid rgba(0, 89, 201, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #003d80, #0059c9, #4a90e2);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .form-title {
+            color: #003d80;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #003d80, #0059c9);
+            border-radius: 2px;
+        }
+        
+        
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            color: #003d80;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+        
+        .obrigatorio::after {
+            content: " *";
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0eaff;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            background: #f8faff;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        
+        input::placeholder, textarea::placeholder {
+            color: #a0b4d6;
+        }
+        
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #003d80 0%, #0059c9 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 89, 201, 0.2);
+            background: linear-gradient(135deg, #0059c9 0%, #4a90e2 100%);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn::after {
+            content: '→';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            opacity: 0.8;
+            transition: transform 0.3s;
+        }
+        
+        .submit-btn:hover::after {
+            transform: translateY(-50%) translateX(5px);
+        }
+        
+        
+        .msg {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 15px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s;
+        }
+        
+        .msg.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .msg.success {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .msg.error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .msg.loading {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        
+        .field-icon {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            color: #a0b4d6;
+            font-size: 18px;
+        }
+        
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+                margin: 20px 0;
+            }
+            
+            .logo-text {
+                font-size: 26px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .gear {
+                display: none;
+            }
+            
+            .form-title {
+                font-size: 22px;
+            }
+            
+            input, textarea {
+                padding: 12px 14px;
+            }
+            
+            .submit-btn {
+                padding: 14px;
+            }
+        }
+        
+        
+        .footer {
+            margin-top: 30px;
+            color: #fffffffa;
+            font-size: 13px;
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Estilos para validação numérica */
+        .numero-input {
+            background: #f8fff8 !important;
+        }
+        
+        .numero-input::placeholder {
+            color: #27ae60 !important;
+            font-style: italic;
+        }
+        
+        .input-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    <svg class="gear gear-1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,15 L55,35 L75,40 L55,45 L50,65 L45,45 L25,40 L45,35 Z" fill="#003d80"/>
+        <circle cx="50" cy="50" r="10" fill="#f0f7ff"/>
+    </svg>
+    
+    <svg class="gear gear-2" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,10 L57,30 L80,30 L60,45 L67,65 L50,55 L33,65 L40,45 L20,30 L43,30 Z" fill="#0059c9"/>
+        <circle cx="50" cy="50" r="8" fill="#f0f7ff"/>
+    </svg>
+    
+    <svg class="gear gear-3" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,20 L55,35 L70,35 L55,40 L60,55 L50,50 L40,55 L45,40 L30,35 L45,35 Z" fill="#4a90e2"/>
+        <circle cx="50" cy="50" r="6" fill="#f0f7ff"/>
+    </svg>
+
+    <div class="header-container">
+        <div class="logo-container">
+            <img src="EURO.png" alt="Logo UNIEURO" class="logo-img">
+
+        </div>
+        <div class="subtitle"> Abertura de Chamados para Manutenção </div>
+    </div>
+
+    <div class="container">
+        <h2 class="form-title">Abrir Novo Chamado</h2>
+        
+        <div class="form-group">
+            <label class="obrigatorio">Nome:</label>
+            <input type="text" id="nome" placeholder="Digite seu nome completo">
+        </div>
+        
+        <div class="form-group">
+            <label class="obrigatorio">Matrícula:</label>
+            <input type="text" 
+                   id="matricula" 
+                   placeholder="Apenas números (ex: 1234)" 
+                   oninput="validarMatricula()"
+                   onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                   maxlength="10"
+                   class="numero-input"
+                   title="Digite apenas números">
+            <span class="input-hint">Apenas números, mínimo 3 dígitos</span>
+        </div>
+        
+        <div class="form-group">
+            <label>Ramal:</label>
+            <input type="text" 
+                   id="ramal" 
+                   placeholder="Apenas números (ex: 5700)" 
+                   oninput="validarRamal()"
+                   onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                   maxlength="6"
+                   class="numero-input"
+                   title="Digite apenas números">
+            <span class="input-hint">Opcional - apenas números</span>
+        </div>
+        
+        <div class="form-group">
+            <label class="obrigatorio">Setor:</label>
+            <input type="text" id="setor" placeholder="Ex: TI, RH, Financeiro, etc.">
+        </div>
+        
+        <div class="form-group">
+            <label class="obrigatorio">Descrição do Problema:</label>
+            <textarea id="descricao" placeholder="Descreva detalhadamente o problema encontrado..."></textarea>
+        </div>
+        
+        <button class="submit-btn" onclick="enviar()">
+            <span>Enviar Chamado</span>
+        </button>
+        
+        <div class="msg" id="msg"></div>
+    </div>
+    
+    <div class="footer">
+        Sistema de Chamados • UNIEURO © 2025 • 
+        <a href="/admin" style="margin-left: 10px;">🔐 Acesso Administrativo</a>
+         <a href="/acompanhar" style="margin-left: 10px;">🔍 Acompanhar Chamado</a>
+    </div>
+
+    <script>
+    // Funções de validação numérica
+    function validarNumero(input) {
+        // Remove tudo que não é número
+        input.value = input.value.replace(/\D/g, '');
+    }
+    
+    function validarMatricula() {
+        const matriculaInput = document.getElementById("matricula");
+        validarNumero(matriculaInput);
+        
+        // Limitar tamanho (máximo 10 dígitos)
+        if (matriculaInput.value.length > 10) {
+            matriculaInput.value = matriculaInput.value.substring(0, 10);
+        }
+        
+        // Feedback visual
+        if (matriculaInput.value.length >= 3) {
+            matriculaInput.style.borderColor = "#2ecc71";
+        } else {
+            matriculaInput.style.borderColor = "#e74c3c";
+        }
+    }
+    
+    function validarRamal() {
+        const ramalInput = document.getElementById("ramal");
+        validarNumero(ramalInput);
+        
+        // Limitar tamanho para ramal (máximo 6 dígitos)
+        if (ramalInput.value.length > 6) {
+            ramalInput.value = ramalInput.value.substring(0, 6);
+        }
+        
+        // Feedback visual
+        if (ramalInput.value.length > 0) {
+            ramalInput.style.borderColor = "#2ecc71";
+        } else {
+            ramalInput.style.borderColor = "#e0eaff";
+        }
+    }
+    
+    function mostrarMensagem(texto, tipo) {
+        const msg = document.getElementById("msg");
+        msg.textContent = texto;
+        msg.className = "msg " + tipo + " show";
+        
+        if (tipo !== "loading") {
+            setTimeout(() => {
+                msg.classList.remove("show");
+            }, 5000);
+        }
+    }
+    
+    // Função principal de envio (ÚNICA - remova a duplicada)
+    function enviar() {
+        const nome = document.getElementById("nome").value.trim();
+        const matricula = document.getElementById("matricula").value.trim();
+        const setor = document.getElementById("setor").value.trim();
+        const descricao = document.getElementById("descricao").value.trim();
+        const ramal = document.getElementById("ramal").value.trim();
+        
+        // Validação básica
+        if (!nome || !matricula || !setor || !descricao) {
+            mostrarMensagem("Por favor, preencha todos os campos obrigatórios!", "error");
+            return;
+        }
+        
+        // Validação específica para matrícula (deve conter apenas números)
+        if (!/^\d+$/.test(matricula)) {
+            mostrarMensagem("A matrícula deve conter apenas números!", "error");
+            document.getElementById("matricula").focus();
+            return;
+        }
+        
+        // Validação de tamanho mínimo para matrícula
+        if (matricula.length < 3) {
+            mostrarMensagem("A matrícula deve ter no mínimo 3 dígitos!", "error");
+            document.getElementById("matricula").focus();
+            return;
+        }
+        
+        // Validação específica para ramal (se preenchido, deve conter apenas números)
+        if (ramal && !/^\d+$/.test(ramal)) {
+            mostrarMensagem("O ramal deve conter apenas números!", "error");
+            document.getElementById("ramal").focus();
+            return;
+        }
+        
+        const dados = {
+            nome: nome,
+            matricula: matricula,
+            ramal: ramal,
+            setor: setor,
+            descricao: descricao
+        };
+        
+        mostrarMensagem("Enviando seu chamado...", "loading");
+        
+        fetch("/api/abrir", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.sucesso) {
+                // Redirecionar para a página de sucesso com TODOS os dados
+                const params = new URLSearchParams({
+                    id: data.id,
+                    nome: encodeURIComponent(nome),
+                    matricula: encodeURIComponent(matricula),
+                    setor: encodeURIComponent(setor),
+                    descricao: encodeURIComponent(descricao),
+                    ramal: encodeURIComponent(ramal),
+                    data: data.data
+                });
+                
+                window.location.href = `/sucesso?${params.toString()}`;
+            } else {
+                mostrarMensagem("❌ Erro ao abrir chamado. Tente novamente.", "error");
+            }
+        })
+        .catch(() => {
+            mostrarMensagem("❌ Erro de conexão. Verifique sua internet.", "error");
+        });
+    }
+    
+    // Evento para permitir Ctrl+Enter no textarea
+    document.getElementById("descricao").addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && e.ctrlKey) {
+            enviar();
+        }
+    });
+    
+    // Evento para pressionar Enter no campo de matrícula focar no próximo campo
+    document.getElementById("matricula").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("ramal").focus();
+        }
+    });
+    
+    // Evento para pressionar Enter no campo de ramal focar no próximo campo
+    document.getElementById("ramal").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("setor").focus();
+        }
+    });
+    
+    // Evento para pressionar Enter no campo de setor focar na descrição
+    document.getElementById("setor").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("descricao").focus();
+        }
+    });
+    
+    // Animações
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    });
+    
+    const container = document.querySelector('.container');
+    container.style.opacity = "0";
+    container.style.transform = "translateY(20px)";
+    container.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    observer.observe(container);
+    </script>
+</body>
+</html>

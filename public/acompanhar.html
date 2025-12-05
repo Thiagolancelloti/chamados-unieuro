@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <title>Acompanhar Chamado - UNIEURO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e94bf 0%, #003ac7 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .gear {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .gear-1 {
+            top: 10%;
+            left: 5%;
+            width: 120px;
+            height: 120px;
+            animation: rotateClockwise 20s linear infinite;
+        }
+        
+        .gear-2 {
+            bottom: 15%;
+            right: 8%;
+            width: 80px;
+            height: 80px;
+            animation: rotateAntiClockwise 15s linear infinite;
+        }
+        
+        .gear-3 {
+            top: 40%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            animation: rotateClockwise 12s linear infinite;
+        }
+        
+        @keyframes rotateClockwise {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotateAntiClockwise {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-img {
+            height: 120px;
+            width: auto;
+        }
+        
+        .logo-text {
+            color: #011d41;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 61, 128, 0.1);
+            border: 1px solid rgba(0, 89, 201, 0.1);
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #003d80, #0059c9, #4a90e2);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .title {
+            color: #003d80;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #003d80, #0059c9);
+            border-radius: 2px;
+        }
+        
+        .search-box {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 2px solid #e0eaff;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0eaff;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #003d80 0%, #0059c9 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0059c9 0%, #4a90e2 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 89, 201, 0.2);
+        }
+        
+        .ticket-details {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+            border: 2px solid #e0eaff;
+            display: none;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0eaff;
+        }
+        
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #0059c9;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-value {
+            color: #003d80;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .status-aberto { 
+            background: #ffeaea;
+            color: #d63031;
+        }
+        .status-andamento { 
+            background: #fff4e6;
+            color: #e67e22;
+        }
+        .status-fechado { 
+            background: #e8f6f3;
+            color: #27ae60;
+        }
+        .status-excluido { 
+            background: #f5f5f5;
+            color: #7f8c8d;
+        }
+        
+        .timeline {
+            margin-top: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #e0eaff;
+        }
+        
+        .timeline-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            position: relative;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -26px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0059c9;
+        }
+        
+        .timeline-date {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-content {
+            color: #003d80;
+            font-size: 14px;
+        }
+        
+        .msg {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 15px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s;
+        }
+        
+        .msg.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .msg.success {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .msg.error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .msg.loading {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            color: #ffffff;
+            font-size: 13px;
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-secondary {
+            background: #f8faff;
+            color: #003d80;
+            border: 2px solid #e0eaff;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0eaff;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .logo-text {
+                font-size: 22px;
+            }
+            
+            .logo-img {
+                height: 80px;
+            }
+            
+            .title {
+                font-size: 22px;
+            }
+            
+            .gear {
+                display: none;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <svg class="gear gear-1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,15 L55,35 L75,40 L55,45 L50,65 L45,45 L25,40 L45,35 Z" fill="#003d80"/>
+        <circle cx="50" cy="50" r="10" fill="#f0f7ff"/>
+    </svg>
+    
+    <svg class="gear gear-2" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,10 L57,30 L80,30 L60,45 L67,65 L50,55 L33,65 L40,45 L20,30 L43,30 Z" fill="#0059c9"/>
+        <circle cx="50" cy="50" r="8" fill="#f0f7ff"/>
+    </svg>
+    
+    <svg class="gear gear-3" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,20 L55,35 L70,35 L55,40 L60,55 L50,50 L40,55 L45,40 L30,35 L45,35 Z" fill="#4a90e2"/>
+        <circle cx="50" cy="50" r="6" fill="#f0f7ff"/>
+    </svg>
+
+    <div class="header-container">
+        <div class="logo-container">
+            <img src="EURO.png" alt="Logo UNIEURO" class="logo-img">
+
+        </div>
+        <div class="subtitle">Acompanhamento de Chamados</div>
+    </div>
+
+    <div class="container">
+        <h1 class="title">🔍 Acompanhe seu Chamado</h1>
+        
+        <div class="search-box">
+            <h3 style="color: #003d80; margin-bottom: 15px;">Digite o número do seu chamado:</h3>
+            <input type="number" 
+                   id="numeroChamado" 
+                   class="search-input" 
+                   placeholder="Ex: 1, 2, 3..."
+                   min="1"
+                   oninput="validarNumero(this)"
+                   onkeypress="if(event.key === 'Enter') buscarChamado()">
+            <button class="btn btn-primary" onclick="buscarChamado()">
+                <span>🔍 Buscar Chamado</span>
+            </button>
+        </div>
+        
+        <div class="ticket-details" id="ticketDetails">
+            <!-- Detalhes do chamado serão preenchidos aqui -->
+        </div>
+        
+        <div class="msg" id="msg"></div>
+        
+        <div class="action-buttons" id="actionButtons" style="display: none;">
+            <a href="/" class="btn btn-secondary">
+                <span>📝 Abrir Novo Chamado</span>
+            </a>
+            <button onclick="imprimirDetalhes()" class="btn btn-secondary">
+                <span>🖨️ Imprimir Detalhes</span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Sistema de Chamados • UNIEURO © 2025 • 
+        <a href="/" style="margin-left: 10px;">🏠 Voltar ao Início</a>
+    </div>
+
+    <script>
+        function validarNumero(input) {
+            // Garantir que seja número positivo
+            if (input.value < 1) {
+                input.value = 1;
+            }
+        }
+        
+        function mostrarMensagem(texto, tipo) {
+            const msg = document.getElementById("msg");
+            msg.textContent = texto;
+            msg.className = "msg " + tipo + " show";
+            
+            if (tipo !== "loading") {
+                setTimeout(() => {
+                    msg.classList.remove("show");
+                }, 5000);
+            }
+        }
+        
+        function formatarData(dataString) {
+            if (!dataString || dataString === "-") return "-";
+            try {
+                const data = new Date(dataString);
+                return data.toLocaleString('pt-BR');
+            } catch {
+                return dataString;
+            }
+        }
+        
+        function buscarChamado() {
+            const numero = document.getElementById("numeroChamado").value.trim();
+            
+            if (!numero || numero < 1) {
+                mostrarMensagem("Digite um número de chamado válido!", "error");
+                return;
+            }
+            
+            mostrarMensagem("Buscando chamado...", "loading");
+            
+            fetch(`/api/buscar/${numero}`)
+                .then(res => {
+                    if (!res.ok) {
+                        if (res.status === 404) {
+                            throw new Error("Chamado não encontrado");
+                        }
+                        throw new Error("Erro ao buscar");
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.sucesso) {
+                        exibirChamado(data.chamado);
+                        mostrarMensagem("✅ Chamado encontrado!", "success");
+                    } else {
+                        mostrarMensagem("❌ " + (data.erro || "Chamado não encontrado"), "error");
+                    }
+                })
+                .catch(err => {
+                    mostrarMensagem("❌ " + err.message, "error");
+                });
+        }
+        
+        function exibirChamado(chamado) {
+            const detailsDiv = document.getElementById("ticketDetails");
+            const actionButtons = document.getElementById("actionButtons");
+            
+            // Determinar classe do status
+            let statusClass = "status-aberto";
+            let statusIcon = "⏳";
+            if (chamado.status === "Em andamento") {
+                statusClass = "status-andamento";
+                statusIcon = "⚡";
+            } else if (chamado.status === "Fechado") {
+                statusClass = "status-fechado";
+                statusIcon = "✅";
+            } else if (chamado.status === "Excluído") {
+                statusClass = "status-excluido";
+                statusIcon = "🗑️";
+            }
+            
+            detailsDiv.innerHTML = `
+                <div class="detail-item">
+                    <div class="detail-label">🔢 Número do Chamado:</div>
+                    <div class="detail-value" style="font-size: 20px; font-weight: bold; color: #003d80;">
+                        #${chamado.id}
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">👤 Solicitante:</div>
+                    <div class="detail-value">${chamado.nome}</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">🏢 Setor:</div>
+                    <div class="detail-value">${chamado.setor}</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">📝 Descrição:</div>
+                    <div class="detail-value" style="white-space: pre-wrap; background: white; padding: 10px; border-radius: 8px; border: 1px solid #e0eaff;">
+                        ${chamado.descricao}
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">${statusIcon} Status:</div>
+                    <div class="detail-value">
+                        <span class="status-badge ${statusClass}">${chamado.status}</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">👨‍💼 Responsável:</div>
+                    <div class="detail-value">${chamado.responsavel}</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">📅 Data de Abertura:</div>
+                    <div class="detail-value">${chamado.dataAbertura}</div>
+                </div>
+                
+                ${chamado.dataFechamento ? `
+                <div class="detail-item">
+                    <div class="detail-label">✅ Data de Fechamento:</div>
+                    <div class="detail-value">${chamado.dataFechamento}</div>
+                </div>
+                ` : ''}
+                
+                <div class="detail-item">
+                    <div class="detail-label">📋 Última Atualização:</div>
+                    <div class="detail-value">${formatarData(new Date().toISOString())}</div>
+                </div>
+            `;
+            
+            detailsDiv.style.display = 'block';
+            actionButtons.style.display = 'flex';
+            
+            // Rolagem suave para os detalhes
+            detailsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function imprimirDetalhes() {
+            const detailsDiv = document.getElementById("ticketDetails").innerHTML;
+            const janela = window.open('', '_blank', 'width=700,height=900');
+            
+            janela.document.write(`
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Detalhes do Chamado - UNIEURO</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 25px; }
+                        .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #003d80; padding-bottom: 20px; }
+                        .logo { font-size: 28px; font-weight: bold; color: #003d80; margin-bottom: 10px; }
+                        .title { font-size: 22px; margin: 20px 0; color: #003d80; font-weight: bold; }
+                        .details { margin: 25px 0; border: 1px solid #ddd; border-radius: 10px; padding: 20px; background: #f9f9f9; }
+                        .detail-item { margin: 12px 0; padding-bottom: 12px; border-bottom: 1px dashed #ccc; }
+                        .detail-item:last-child { border-bottom: none; }
+                        .detail-label { font-weight: bold; color: #003d80; margin-bottom: 5px; }
+                        .detail-value { color: #333; line-height: 1.5; }
+                        .footer { margin-top: 40px; font-size: 12px; text-align: center; color: #666; border-top: 1px solid #ddd; padding-top: 20px; }
+                        @media print { 
+                            button { display: none !important; }
+                            body { padding: 15px; }
+                        }
+                        .protocolo-grande { font-size: 24px; font-weight: bold; color: #d63031; text-align: center; margin: 15px 0; padding: 10px; background: #ffeaea; border-radius: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <div class="logo">UNIEURO</div>
+                        <div class="title">DETALHES DO CHAMADO</div>
+                    </div>
+                    <div class="details">
+                        ${detailsDiv}
+                    </div>
+                    <div class="footer">
+                        <p><strong>Sistema de Chamados - UNIEURO</strong></p>
+                        <p>Documento gerado para acompanhamento</p>
+                        <p>Impresso em: ${new Date().toLocaleString('pt-BR')}</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button onclick="window.print()" style="padding: 12px 25px; background: #003d80; color: white; border: none; cursor: pointer; font-size: 16px; border-radius: 5px; margin-right: 10px;">
+                            🖨️ Imprimir
+                        </button>
+                        <button onclick="window.close()" style="padding: 12px 25px; background: #666; color: white; border: none; cursor: pointer; font-size: 16px; border-radius: 5px;">
+                            ✖️ Fechar
+                        </button>
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            janela.document.close();
+        }
+        
+        // Permitir buscar com Enter
+        document.getElementById("numeroChamado").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                buscarChamado();
+            }
+        });
+        
+        // Focar no campo de busca ao carregar a página
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("numeroChamado").focus();
+        });
+    </script>
+</body>
+</html>

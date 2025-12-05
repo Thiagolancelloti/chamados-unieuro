@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <title>Chamado Aberto - UNIEURO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e94bf 0%, #003ac7 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Engrenagens decorativas */
+        .gear {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .gear-1 {
+            top: 10%;
+            left: 5%;
+            width: 120px;
+            height: 120px;
+            animation: rotateClockwise 20s linear infinite;
+        }
+        
+        .gear-2 {
+            bottom: 15%;
+            right: 8%;
+            width: 80px;
+            height: 80px;
+            animation: rotateAntiClockwise 15s linear infinite;
+        }
+        
+        .gear-3 {
+            top: 40%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            animation: rotateClockwise 12s linear infinite;
+        }
+        
+        @keyframes rotateClockwise {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotateAntiClockwise {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        
+        /* Cabeçalho */
+        .header-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-img {
+            height: 120px;
+            width: auto;
+        }
+        
+        .logo-text {
+            color: #011d41;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        
+        /* Container principal */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 61, 128, 0.1);
+            border: 1px solid rgba(0, 89, 201, 0.1);
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #003d80, #0059c9, #4a90e2);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        /* Ícone de sucesso */
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: bounce 1s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        /* Título */
+        .success-title {
+            color: #003d80;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .success-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #003d80, #0059c9);
+            border-radius: 2px;
+        }
+        
+        /* Detalhes do chamado */
+        .ticket-details {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+            border: 2px solid #e0eaff;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0eaff;
+        }
+        
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #0059c9;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-value {
+            color: #003d80;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* Mensagem de confirmação */
+        .confirmation-message {
+            color: #27ae60;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        /* Botões */
+        .button-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #003d80 0%, #0059c9 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #f8faff;
+            color: #003d80;
+            border: 2px solid #e0eaff;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 89, 201, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0059c9 0%, #4a90e2 100%);
+        }
+        
+        .btn-secondary:hover {
+            background: #e0eaff;
+        }
+        
+        /* Rodapé */
+        .footer {
+            margin-top: 40px;
+            color: #ffffff;
+            font-size: 13px;
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .logo-text {
+                font-size: 22px;
+            }
+            
+            .logo-img {
+                height: 80px;
+            }
+            
+            .success-title {
+                font-size: 24px;
+            }
+            
+            .gear {
+                display: none;
+            }
+            
+            .button-container {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        /* Animação de entrada */
+        .container {
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Adicione isso na seção de CSS */
+.descricao-container {
+    background: #f8faff;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 2px solid #e0eaff;
+}
+
+.descricao-label {
+    color: #0059c9;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.descricao-text {
+    color: #003d80;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e0eaff;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+    </style>
+</head>
+<body>
+    
+    <!-- Engrenagens decorativas -->
+    <svg class="gear gear-1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,15 L55,35 L75,40 L55,45 L50,65 L45,45 L25,40 L45,35 Z" fill="#003d80"/>
+        <circle cx="50" cy="50" r="10" fill="#f0f7ff"/>
+    </svg>
+    
+    <svg class="gear gear-2" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,10 L57,30 L80,30 L60,45 L67,65 L50,55 L33,65 L40,45 L20,30 L43,30 Z" fill="#0059c9"/>
+        <circle cx="50" cy="50" r="8" fill="#f0f7ff"/>
+    </svg>
+    
+    <svg class="gear gear-3" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,20 L55,35 L70,35 L55,40 L60,55 L50,50 L40,55 L45,40 L30,35 L45,35 Z" fill="#4a90e2"/>
+        <circle cx="50" cy="50" r="6" fill="#f0f7ff"/>
+    </svg>
+
+    <!-- Cabeçalho -->
+    <div class="header-container">
+        <div class="logo-container">
+            <img src="EURO.png" alt="Logo UNIEURO" class="logo-img">
+            
+        </div>
+        <div class="subtitle">Sistema de Abertura de Chamados</div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <div class="success-icon">🎉</div>
+        <h1 class="success-title">CHAMADO ABERTO COM SUCESSO!</h1>
+        
+        <div class="ticket-details">
+    <div class="detail-item">
+        <div class="detail-label">🔢 Protocolo:</div>
+        <div class="detail-value" id="protocolo">Carregando...</div>
+    </div>
+    
+    <div class="detail-item">
+        <div class="detail-label">👤 Nome:</div>
+        <div class="detail-value" id="nome">Carregando...</div>
+    </div>
+    
+    <div class="detail-item">
+        <div class="detail-label">📋 Matrícula:</div>
+        <div class="detail-value" id="matricula">Carregando...</div>
+    </div>
+    
+    <div class="detail-item">
+        <div class="detail-label">🏢 Setor:</div>
+        <div class="detail-value" id="setor">Carregando...</div>
+    </div>
+    
+    <div class="detail-item">
+        <div class="detail-label">📞 Ramal:</div>
+        <div class="detail-value" id="ramal">Carregando...</div>
+    </div>
+    
+    <div class="detail-item">
+        <div class="detail-label">📝 Descrição:</div>
+        <div class="detail-value" id="descricao" style="white-space: pre-wrap; line-height: 1.5;">Carregando...</div>
+    </div>
+    
+    <div class="detail-item">
+        <div class="detail-label">📅 Data:</div>
+        <div class="detail-value" id="data">Carregando...</div>
+    </div>
+</div>
+        
+        <div class="confirmation-message">
+            ✅ Seu chamado foi registrado em nosso sistema. Nossa equipe entrará em contato em breve.
+        </div>
+        
+        <div class="button-container">
+            <a href="/" class="btn btn-primary">
+                <span>🔄 ABRIR NOVO CHAMADO</span>
+            </a>
+            <button onclick="imprimirComprovante()" class="btn btn-secondary">
+                <span>🖨️ IMPRIMIR COMPROVANTE</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Rodapé -->
+    <div class="footer">
+        Sistema de Chamados • UNIEURO © 2025 • 
+        <a href="/admin" style="margin-left: 10px;">🔐 Acesso Administrativo</a>
+    </div>
+
+    <script>
+        // Função para obter parâmetros da URL
+        function getUrlParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const pairs = queryString.split('&');
+            
+            pairs.forEach(pair => {
+                const [key, value] = pair.split('=');
+                if (key && value) {
+                    params[decodeURIComponent(key)] = decodeURIComponent(value);
+                }
+            });
+            
+            return params;
+        }
+        
+        // Função para formatar data atual
+        function formatarData() {
+            const data = new Date();
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            const horas = String(data.getHours()).padStart(2, '0');
+            const minutos = String(data.getMinutes()).padStart(2, '0');
+            
+            return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+        }
+        
+        // Função para gerar protocolo
+        function gerarProtocolo() {
+            const timestamp = Date.now();
+            const random = Math.floor(Math.random() * 10000);
+            return `#164${timestamp}${random}`.substring(0, 16);
+        }
+        
+        // Carregar dados na página
+document.addEventListener('DOMContentLoaded', function() {
+    const params = getUrlParams();
+    
+    // Preencher os dados
+    if (params.nome) {
+        document.getElementById('nome').textContent = params.nome;
+    } else {
+        document.getElementById('nome').textContent = "Não informado";
+    }
+    
+    if (params.matricula) {
+        document.getElementById('matricula').textContent = params.matricula;
+    } else {
+        document.getElementById('matricula').textContent = "Não informada";
+    }
+    
+    if (params.setor) {
+        document.getElementById('setor').textContent = params.setor;
+    } else {
+        document.getElementById('setor').textContent = "Não informado";
+    }
+    
+    if (params.ramal && params.ramal !== "undefined") {
+        document.getElementById('ramal').textContent = params.ramal;
+    } else {
+        document.getElementById('ramal').textContent = "Não informado";
+    }
+    
+    if (params.descricao) {
+        // Decodificar e manter quebras de linha
+        const descricaoDecodificada = decodeURIComponent(params.descricao);
+        document.getElementById('descricao').textContent = descricaoDecodificada;
+    } else {
+        document.getElementById('descricao').textContent = "Não informada";
+    }
+    
+    // Protocolo (ID sequencial)
+if (params.id) {
+    document.getElementById('protocolo').textContent = `#${params.id}`;
+    
+    // Adicionar mensagem de acompanhamento
+    const confMessage = document.querySelector('.confirmation-message');
+    confMessage.innerHTML = `
+        ✅ Seu chamado foi registrado em nosso sistema.<br>
+        <strong>Número do chamado: #${params.id}</strong><br>
+        Guarde este número para acompanhamento.<br>
+        Nossa equipe entrará em contato em breve.
+    `;
+} else {
+    document.getElementById('protocolo').textContent = `#${Date.now()}`;
+}
+    
+    // Data
+    if (params.data) {
+        document.getElementById('data').textContent = formatarData(params.data);
+    } else {
+        document.getElementById('data').textContent = formatarData(new Date().toISOString());
+    }
+    
+    // Salvar no localStorage para histórico
+    const chamadoData = {
+        protocolo: document.getElementById('protocolo').textContent,
+        nome: document.getElementById('nome').textContent,
+        matricula: document.getElementById('matricula').textContent,
+        setor: document.getElementById('setor').textContent,
+        ramal: document.getElementById('ramal').textContent,
+        descricao: document.getElementById('descricao').textContent,
+        data: document.getElementById('data').textContent,
+        timestamp: new Date().toISOString()
+    };
+    
+    localStorage.setItem('ultimoChamado', JSON.stringify(chamadoData));
+});
+            
+            // Se houver dados na URL, usar eles
+            if (params.nome) {
+                document.getElementById('nome').textContent = params.nome;
+            }
+            
+            if (params.setor) {
+                document.getElementById('setor').textContent = params.setor;
+            }
+            
+            // Sempre gerar novo protocolo e data atual
+            document.getElementById('protocolo').textContent = gerarProtocolo();
+            document.getElementById('data').textContent = formatarData();
+            
+            // Salvar dados no localStorage para possível recuperação
+            const chamadoData = {
+                protocolo: document.getElementById('protocolo').textContent,
+                nome: document.getElementById('nome').textContent,
+                setor: document.getElementById('setor').textContent,
+                data: document.getElementById('data').textContent,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('ultimoChamado', JSON.stringify(chamadoData));
+        ;
+        
+        // Função para imprimir comprovante
+function imprimirComprovante() {
+    const janela = window.open('', '_blank', 'width=700,height=900');
+    
+    // Limitar o tamanho da descrição para não quebrar o layout
+    let descricaoParaImprimir = document.getElementById('descricao').textContent;
+    if (descricaoParaImprimir.length > 500) {
+        descricaoParaImprimir = descricaoParaImprimir.substring(0, 500) + "...";
+    }
+    
+    janela.document.write(`
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+            <title>Comprovante de Chamado - UNIEURO</title>
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    padding: 25px;
+                    max-width: 600px;
+                    margin: 0 auto;
+                }
+                .header { 
+                    text-align: center; 
+                    margin-bottom: 30px;
+                    border-bottom: 3px solid #003d80;
+                    padding-bottom: 20px;
+                }
+                .logo { 
+                    font-size: 28px; 
+                    font-weight: bold; 
+                    color: #003d80; 
+                    margin-bottom: 10px;
+                }
+                .title { 
+                    font-size: 22px; 
+                    margin: 20px 0; 
+                    color: #003d80; 
+                    font-weight: bold;
+                }
+                .details { 
+                    margin: 25px 0;
+                    border: 1px solid #ddd;
+                    border-radius: 10px;
+                    padding: 20px;
+                    background: #f9f9f9;
+                }
+                .detail-item { 
+                    margin: 12px 0; 
+                    padding-bottom: 12px;
+                    border-bottom: 1px dashed #ccc;
+                }
+                .detail-item:last-child {
+                    border-bottom: none;
+                }
+                .detail-label { 
+                    font-weight: bold; 
+                    color: #003d80;
+                    margin-bottom: 5px;
+                }
+                .detail-value { 
+                    color: #333;
+                    line-height: 1.5;
+                }
+                .descricao-item {
+                    margin: 15px 0;
+                    padding: 15px;
+                    background: white;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                }
+                .descricao-text {
+                    white-space: pre-wrap;
+                    line-height: 1.6;
+                    font-size: 14px;
+                }
+                .footer { 
+                    margin-top: 40px; 
+                    font-size: 12px; 
+                    text-align: center; 
+                    color: #666;
+                    border-top: 1px solid #ddd;
+                    padding-top: 20px;
+                }
+                @media print { 
+                    .no-print { display: none !important; }
+                    button { display: none !important; }
+                    body { padding: 15px; }
+                }
+                .protocolo-grande {
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #d63031;
+                    text-align: center;
+                    margin: 15px 0;
+                    padding: 10px;
+                    background: #ffeaea;
+                    border-radius: 5px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="logo">UNIEURO</div>
+                <div class="title">COMPROVANTE DE ABERTURA DE CHAMADO</div>
+                <div class="protocolo-grande">
+                    Protocolo: ${document.getElementById('protocolo').textContent}
+                </div>
+            </div>
+            
+            <div class="details">
+                <div class="detail-item">
+                    <div class="detail-label">Nome do Solicitante:</div>
+                    <div class="detail-value">${document.getElementById('nome').textContent}</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Matrícula:</div>
+                    <div class="detail-value">${document.getElementById('matricula').textContent}</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Setor:</div>
+                    <div class="detail-value">${document.getElementById('setor').textContent}</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Ramal:</div>
+                    <div class="detail-value">${document.getElementById('ramal').textContent}</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Data e Hora:</div>
+                    <div class="detail-value">${document.getElementById('data').textContent}</div>
+                </div>
+            </div>
+            
+            <div class="descricao-item">
+                <div class="detail-label">Descrição do Problema Solicitado:</div>
+                <div class="descricao-text">${descricaoParaImprimir}</div>
+            </div>
+            
+            <div class="footer">
+                <p><strong>Sistema de Chamados - UNIEURO</strong></p>
+                <p>Este é um comprovante eletrônico válido para fins de registro.</p>
+                <p>Guarde este comprovante para acompanhamento do seu chamado.</p>
+                <p>Impresso em: ${new Date().toLocaleString('pt-BR')}</p>
+                <p style="font-size: 10px; margin-top: 10px; color: #999;">
+                    Este documento foi gerado automaticamente pelo sistema de chamados.
+                </p>
+            </div>
+            
+            <div class="no-print" style="text-align: center; margin-top: 30px;">
+                <button onclick="window.print()" style="padding: 12px 25px; background: #003d80; color: white; border: none; cursor: pointer; font-size: 16px; border-radius: 5px; margin-right: 10px;">
+                    🖨️ Imprimir Comprovante
+                </button>
+                <button onclick="window.close()" style="padding: 12px 25px; background: #666; color: white; border: none; cursor: pointer; font-size: 16px; border-radius: 5px;">
+                    ✖️ Fechar Janela
+                </button>
+            </div>
+        </body>
+        </html>
+    `);
+    
+    janela.document.close();
+}
+        
+        // Redirecionar para a página inicial após 30 segundos (opcional)
+        setTimeout(() => {
+            console.log('Você será redirecionado para a página inicial em breve...');
+        }, 30000);
+    </script>
+</body>
+</html>

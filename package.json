@@ -1,0 +1,20 @@
+{
+  "name": "chamados-unieuro",
+  "version": "1.0.0",
+  "description": "Sistema de Chamados para Manutenção - UNIEURO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["chamados", "manutenção", "unieuro", "helpdesk"],
+  "author": "UNIEURO",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

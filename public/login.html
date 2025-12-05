@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <title>Login Administrativo - Unieuro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e94bf 0%, #003ac7 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .logo {
+            color: #003d80;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        
+        .login-title {
+            color: #003d80;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: #003d80;
+            outline: none;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #003d80;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            
+        }
+        
+        .btn-login:hover {
+            background: #0059c9;
+        }
+        
+        .btn-voltar {
+            display: block;
+            margin-top: 20px;
+            color: #003d80;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .btn-voltar:hover {
+            text-decoration: underline;
+        }
+        
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .message.error {
+            background: #ffeaea;
+            color: #d63031;
+            border: 1px solid #d63031;
+        }
+        
+        .message.success {
+            background: #e8f6f3;
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="logo">UNIEURO</div>
+    <h2 class="login-title">🔐 Acesso Administrativo</h2>
+    
+    <div class="input-group">
+        <label for="senha">Senha de Administrador:</label>
+        <input type="password" id="senha" placeholder="Digite a senha" autofocus>
+    </div>
+    
+    <button class="btn-login" onclick="fazerLogin()">Entrar no Painel</button>
+    
+    <a href="/" class="btn-voltar">← Voltar para o site público</a>
+    
+    <div id="message" class="message"></div>
+</div>
+
+<script>
+function fazerLogin() {
+    const senha = document.getElementById("senha").value;
+    const message = document.getElementById("message");
+    
+    if (!senha) {
+        showMessage("Digite a senha!", "error");
+        return;
+    }
+    
+    fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ senha })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.sucesso) {
+            localStorage.setItem('admin_token', senha);
+            showMessage("✅ Login realizado! Redirecionando...", "success");
+            
+            setTimeout(() => {
+                window.location.href = "/admin";
+            }, 1000);
+        } else {
+            showMessage("❌ Senha incorreta!", "error");
+        }
+    })
+    .catch(err => {
+        showMessage("❌ Erro ao conectar ao servidor", "error");
+    });
+}
+
+function showMessage(text, type) {
+    const message = document.getElementById("message");
+    message.textContent = text;
+    message.className = "message " + type;
+    message.style.display = "block";
+    
+    if (type !== "success") {
+        setTimeout(() => {
+            message.style.display = "none";
+        }, 3000);
+    }
+}
+
+document.getElementById("senha").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        fazerLogin();
+    }
+});
+</script>
+
+</body>
+</html>

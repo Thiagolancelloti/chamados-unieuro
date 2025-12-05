@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <title>Painel Administrativo - Chamados</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+        body { background: #f0f5ff; padding: 20px; }
+        h1 { color: #003366; margin-bottom: 20px; }
+        
+        .controles {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .controles button {
+            background: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .controles button:hover {
+            background: #004488;
+        }
+        
+        .abas {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .aba {
+            padding: 15px 25px;
+            cursor: pointer;
+            border-right: 1px solid #eee;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .aba:hover {
+            background: #f5f9ff;
+        }
+        
+        .aba.ativa {
+            background: #003366;
+            color: white;
+        }
+        
+        .aba-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        
+        .auto-update {
+            background: #e8f4ff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            margin-left: auto;
+        }
+        
+        .conteudo-aba {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        th {
+            background: #003366;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:hover td {
+            background: #f5f9ff;
+        }
+        
+        .status-aberto { 
+            background: #ffeaea;
+            color: #d63031;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .status-andamento { 
+            background: #fff4e6;
+            color: #e67e22;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .status-fechado { 
+            background: #e8f6f3;
+            color: #27ae60;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .status-excluido { 
+            background: #f5f5f5;
+            color: #7f8c8d;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            text-decoration: line-through;
+        }
+        
+        .btn-acao {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 13px;
+        }
+        .btn-atribuir { background: #3498db; color: white; }
+        .btn-atribuir:hover { background: #2980b9; }
+        .btn-fechar { background: #2ecc71; color: white; }
+        .btn-fechar:hover { background: #27ae60; }
+        .btn-restaurar { background: #9b59b6; color: white; }
+        .btn-restaurar:hover { background: #8e44ad; }
+        .btn-excluir { background: #e74c3c; color: white; }
+        .btn-excluir:hover { background: #c0392b; }
+        
+        .ultima-atualizacao {
+            margin-top: 10px;
+            color: #666;
+            font-size: 12px;
+            text-align: right;
+        }
+        
+        .notificacao {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .stat-card .numero {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .stat-abertos .numero { color: #d63031; }
+        .stat-andamento .numero { color: #e67e22; }
+        .stat-fechados .numero { color: #27ae60; }
+        .stat-excluidos .numero { color: #7f8c8d; }
+        
+        .sem-dados {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+        }
+        
+        .erro-login {
+            background: #ffeaea;
+            color: #d63031;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px solid #d63031;
+        }
+        
+        .erro-login button {
+            background: #003366;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+
+<div id="notificacao" class="notificacao">🔄 Chamados atualizados!</div>
+
+<h1>🔐 Painel Administrativo - UNIEURO</h1>
+
+<div id="mensagemErro" class="erro-login" style="display: none;">
+    <p>⚠️ Você precisa fazer login para acessar o painel administrativo.</p>
+    <button onclick="window.location.href='/login'">Ir para Login</button>
+</div>
+
+<div id="conteudoPrincipal" style="display: none;">
+    <div class="controles">
+        <button onclick="carregarTodosChamados()">🔄 Atualizar Tudo</button>
+        <button onclick="window.open('/')">🌐 Ver Site Público</button>
+        <button onclick="sair()" style="background: #e74c3c;">🚪 Sair</button>
+        <div class="auto-update">
+             
+            <span id="autoUpdateStatus">⏳ Carregando...</span>
+            <button onclick="pararAutoUpdate()" style="margin-left: 10px; background: #e74c3c; padding: 4px 8px; font-size: 12px;">Parar</button>
+            <button onclick="iniciarAutoUpdate()" style="background: #2ecc71; padding: 4px 8px; font-size: 12px;">Iniciar</button>
+        </div>
+    </div>
+
+    <div class="stats" id="estatisticas">
+       
+    </div>
+
+    <div class="abas">
+        <div class="aba ativa" onclick="mudarAba('ativos')" id="aba-ativos">
+            Ativos <span class="aba-badge" id="badge-ativos">0</span>
+        </div>
+        <div class="aba" onclick="mudarAba('fechados')" id="aba-fechados">
+            Fechados <span class="aba-badge" id="badge-fechados">0</span>
+        </div>
+        <div class="aba" onclick="mudarAba('excluidos')" id="aba-excluidos">
+            Excluídos <span class="aba-badge" id="badge-excluidos">0</span>
+        </div>
+        <div class="aba" onclick="mudarAba('todos')" id="aba-todos">
+            Todos <span class="aba-badge" id="badge-todos">0</span>
+        </div>
+    </div>
+
+    <div class="conteudo-aba" id="conteudo-aba">
+        <div class="sem-dados">Carregando chamados...</div>
+    </div>
+
+    <div class="ultima-atualizacao" id="ultimaAtualizacao">
+        Última atualização: --
+    </div>
+</div>
+
+
+<script>
+let autoUpdateInterval;
+let ultimaAtualizacao = document.getElementById("ultimaAtualizacao");
+let notificacao = document.getElementById("notificacao");
+let chamadosCompletos = [];
+let abaAtiva = 'ativos';
+let token = localStorage.getItem('admin_token');
+
+
+function formatarData(dataString) {
+    if (!dataString || dataString === "-" || dataString === "") return "-";
+    
+    try {
+        
+        const data = new Date(dataString);
+        
+        
+        if (isNaN(data.getTime())) {
+            return dataString; 
+        }
+        
+        
+        const dia = data.getDate().toString().padStart(2, '0');
+        const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+        const ano = data.getFullYear();
+        const hora = data.getHours().toString().padStart(2, '0');
+        const minuto = data.getMinutes().toString().padStart(2, '0');
+        const segundo = data.getSeconds().toString().padStart(2, '0');
+        
+        return `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
+    } catch (err) {
+        console.error("Erro ao formatar data:", err, dataString);
+        return dataString; 
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (!token) {
+        
+        document.getElementById("mensagemErro").style.display = "block";
+        document.getElementById("conteudoPrincipal").style.display = "none";
+    } else {
+        
+        document.getElementById("mensagemErro").style.display = "none";
+        document.getElementById("conteudoPrincipal").style.display = "block";
+        
+        
+        carregarTodosChamados();
+        iniciarAutoUpdate();
+    }
+});
+
+
+function fetchAutenticado(url, options = {}) {
+    if (!token) {
+        window.location.href = "/login";
+        return Promise.reject("Não autenticado");
+    }
+    
+    if (!options.headers) options.headers = {};
+    options.headers['Authorization'] = `Bearer ${token}`;
+    return fetch(url, options);
+}
+
+function mostrarNotificacao(mensagem) {
+    notificacao.textContent = mensagem;
+    notificacao.style.display = 'block';
+    notificacao.style.background = '#2ecc71';
+    
+    setTimeout(() => {
+        notificacao.style.display = 'none';
+    }, 3000);
+}
+
+function mostrarErro(mensagem) {
+    notificacao.textContent = mensagem;
+    notificacao.style.display = 'block';
+    notificacao.style.background = '#e74c3c';
+    
+    setTimeout(() => {
+        notificacao.style.display = 'none';
+    }, 3000);
+}
+
+function sair() {
+    localStorage.removeItem('admin_token');
+    window.location.href = "/login";
+}
+
+function mudarAba(aba) {
+    abaAtiva = aba;
+    
+    document.querySelectorAll('.aba').forEach(el => {
+        el.classList.remove('ativa');
+    });
+    document.getElementById(`aba-${aba}`).classList.add('ativa');
+    
+    renderizarChamadosAba();
+}
+
+async function carregarTodosChamados() {
+    if (!token) {
+        mostrarErro("❌ Faça login primeiro!");
+        setTimeout(() => window.location.href = "/login", 2000);
+        return;
+    }
+    
+    try {
+        const res = await fetchAutenticado("/api/chamados");
+        
+        if (res.status === 401) {
+            localStorage.removeItem('admin_token');
+            mostrarErro("❌ Sessão expirada!");
+            setTimeout(() => window.location.href = "/login", 2000);
+            return;
+        }
+        
+        if (!res.ok) throw new Error("Erro na resposta do servidor");
+        
+        chamadosCompletos = await res.json();
+        
+        atualizarEstatisticas();
+        atualizarBadges();
+        renderizarChamadosAba();
+        
+        const agora = new Date();
+        ultimaAtualizacao.textContent = 
+            `Última atualização: ${agora.getHours().toString().padStart(2, '0')}:${agora.getMinutes().toString().padStart(2, '0')}:${agora.getSeconds().toString().padStart(2, '0')}`;
+            
+    } catch (err) {
+        console.error("Erro ao carregar chamados:", err);
+        mostrarErro("Erro ao carregar chamados");
+    }
+}
+
+function atualizarEstatisticas() {
+    const abertos = chamadosCompletos.filter(c => c.status === "Aberto").length;
+    const andamento = chamadosCompletos.filter(c => c.status === "Em andamento").length;
+    const fechados = chamadosCompletos.filter(c => c.status === "Fechado").length;
+    const excluidos = chamadosCompletos.filter(c => c.status === "Excluído").length;
+    const total = chamadosCompletos.length;
+    
+    document.getElementById('estatisticas').innerHTML = `
+        <div class="stat-card stat-abertos">
+            <h3>Abertos</h3>
+            <div class="numero">${abertos}</div>
+        </div>
+        <div class="stat-card stat-andamento">
+            <h3>Em Andamento</h3>
+            <div class="numero">${andamento}</div>
+        </div>
+        <div class="stat-card stat-fechados">
+            <h3>Fechados</h3>
+            <div class="numero">${fechados}</div>
+        </div>
+        <div class="stat-card stat-excluidos">
+            <h3>Excluídos</h3>
+            <div class="numero">${excluidos}</div>
+        </div>
+        <div class="stat-card">
+            <h3>Total</h3>
+            <div class="numero" style="color: #003366;">${total}</div>
+        </div>
+    `;
+}
+
+function atualizarBadges() {
+    const abertos = chamadosCompletos.filter(c => c.status === "Aberto" || c.status === "Em andamento").length;
+    const fechados = chamadosCompletos.filter(c => c.status === "Fechado").length;
+    const excluidos = chamadosCompletos.filter(c => c.status === "Excluído").length;
+    const total = chamadosCompletos.length;
+    
+    document.getElementById('badge-ativos').textContent = abertos;
+    document.getElementById('badge-fechados').textContent = fechados;
+    document.getElementById('badge-excluidos').textContent = excluidos;
+    document.getElementById('badge-todos').textContent = total;
+}
+
+function renderizarChamadosAba() {
+    let chamadosFiltrados = [];
+    
+    switch(abaAtiva) {
+        case 'ativos':
+            chamadosFiltrados = chamadosCompletos.filter(c => 
+                c.status === "Aberto" || c.status === "Em andamento"
+            );
+            break;
+        case 'fechados':
+            chamadosFiltrados = chamadosCompletos.filter(c => c.status === "Fechado");
+            break;
+        case 'excluidos':
+            chamadosFiltrados = chamadosCompletos.filter(c => c.status === "Excluído");
+            break;
+        case 'todos':
+            chamadosFiltrados = chamadosCompletos;
+            break;
+    }
+    
+    const conteudo = document.getElementById('conteudo-aba');
+    
+    if (chamadosFiltrados.length === 0) {
+        conteudo.innerHTML = `
+            <div class="sem-dados">
+                <h3>Nenhum chamado encontrado nesta categoria</h3>
+            </div>
+        `;
+        return;
+    }
+    
+    let tabelaHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Setor</th>
+                    <th>Descrição</th>
+                    <th>Status</th>
+                    <th>Responsável</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    chamadosFiltrados.forEach(ch => {
+        let statusClass = "status-aberto";
+        if (ch.status === "Fechado") statusClass = "status-fechado";
+        if (ch.status === "Em andamento") statusClass = "status-andamento";
+        if (ch.status === "Excluído") statusClass = "status-excluido";
+        
+        let botoes = '';
+        
+        if (abaAtiva === 'ativos') {
+            botoes = `
+                <button class="btn-acao btn-atribuir" onclick="atribuir(${ch.id})">Atribuir</button>
+                <button class="btn-acao btn-fechar" onclick="fechar(${ch.id})">Fechar</button>
+                <button class="btn-acao btn-excluir" onclick="excluir(${ch.id})">Excluir</button>
+            `;
+        } else if (abaAtiva === 'fechados') {
+            botoes = `<button class="btn-acao btn-excluir" onclick="excluir(${ch.id})">Excluir</button>`;
+        } else if (abaAtiva === 'excluidos') {
+            botoes = `<button class="btn-acao btn-restaurar" onclick="restaurar(${ch.id})">Restaurar</button>`;
+        } else {
+            if (ch.status !== "Fechado" && ch.status !== "Excluído") {
+                botoes = `
+                    <button class="btn-acao btn-atribuir" onclick="atribuir(${ch.id})">Atribuir</button>
+                    <button class="btn-acao btn-fechar" onclick="fechar(${ch.id})">Fechar</button>
+                    <button class="btn-acao btn-excluir" onclick="excluir(${ch.id})">Excluir</button>
+                `;
+            } else if (ch.status === "Excluído") {
+                botoes = `<button class="btn-acao btn-restaurar" onclick="restaurar(${ch.id})">Restaurar</button>`;
+            } else {
+                botoes = `<button class="btn-acao btn-excluir" onclick="excluir(${ch.id})">Excluir</button>`;
+            }
+        }
+        
+        tabelaHTML += `
+            <tr>
+                <td>${ch.id}</td>
+                <td><strong>${ch.nome}</strong><br><small>Matrícula: ${ch.matricula}</small></td>
+                <td>${ch.setor}</td>
+                <td>${ch.descricao}</td>
+                <td><span class="${statusClass}">${ch.status}</span></td>
+                <td>${ch.responsavel || "-"}</td>
+                <td><small>${formatarData(ch.dataAbertura)}</small></td>
+                <td>${botoes}</td>
+            </tr>
+        `;
+    });
+    
+    tabelaHTML += `</tbody></table>`;
+    conteudo.innerHTML = tabelaHTML;
+}
+
+function atribuir(id) {
+    const nome = prompt("Digite o nome do responsável:");
+    if (!nome) return;
+    
+    fetchAutenticado("/api/atualizar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, responsavel: nome, status: "Em andamento" })
+    })
+    .then(res => {
+        if (res.status === 401) {
+            mostrarErro("❌ Sessão expirada!");
+            setTimeout(() => sair(), 2000);
+            return;
+        }
+        if (!res.ok) throw new Error();
+        mostrarNotificacao("✅ Responsável atribuído!");
+        carregarTodosChamados();
+    })
+    .catch(() => mostrarErro("❌ Erro ao atribuir"));
+}
+
+function fechar(id) {
+    const nome = prompt("Digite seu nome para fechar o chamado:");
+    if (!nome) return;
+    
+    fetchAutenticado("/api/atualizar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, fechadoPor: nome, status: "Fechado" })
+    })
+    .then(res => {
+        if (res.status === 401) {
+            mostrarErro("❌ Sessão expirada!");
+            setTimeout(() => sair(), 2000);
+            return;
+        }
+        if (!res.ok) throw new Error();
+        mostrarNotificacao("✅ Chamado fechado!");
+        carregarTodosChamados();
+    })
+    .catch(() => mostrarErro("❌ Erro ao fechar"));
+}
+
+function excluir(id) {
+    if (!confirm("Excluir este chamado permanentemente?")) return;
+    
+    const nome = prompt("Digite seu nome para confirmar exclusão:");
+    if (!nome) return;
+    
+    fetchAutenticado("/api/excluir", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, excluidoPor: nome })
+    })
+    .then(res => {
+        if (res.status === 401) {
+            mostrarErro("❌ Sessão expirada!");
+            setTimeout(() => sair(), 2000);
+            return;
+        }
+        if (!res.ok) throw new Error();
+        mostrarNotificacao("✅ Chamado excluído!");
+        carregarTodosChamados();
+    })
+    .catch(() => mostrarErro("❌ Erro ao excluir"));
+}
+
+function restaurar(id) {
+    if (!confirm("Restaurar este chamado?")) return;
+    
+    fetchAutenticado("/api/restaurar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+    })
+    .then(res => {
+        if (res.status === 401) {
+            mostrarErro("❌ Sessão expirada!");
+            setTimeout(() => sair(), 2000);
+            return;
+        }
+        if (!res.ok) throw new Error();
+        mostrarNotificacao("✅ Chamado restaurado!");
+        carregarTodosChamados();
+    })
+    .catch(() => mostrarErro("❌ Erro ao restaurar"));
+}
+
+function iniciarAutoUpdate() {
+    if (autoUpdateInterval) clearInterval(autoUpdateInterval);
+    autoUpdateInterval = setInterval(carregarTodosChamados, 3000);
+    document.getElementById("autoUpdateStatus").textContent = "✅ ATIVADO (3s)";
+}
+
+function pararAutoUpdate() {
+    clearInterval(autoUpdateInterval);
+    document.getElementById("autoUpdateStatus").textContent = "❌ DESATIVADO";
+}
+
+window.addEventListener("focus", carregarTodosChamados);
+window.addEventListener("beforeunload", () => {
+    clearInterval(autoUpdateInterval);
+});
+</script>
+
+</body>
+</html>
