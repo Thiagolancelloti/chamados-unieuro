@@ -359,7 +359,6 @@
             text-decoration: underline;
         }
         
-        /* Estilos para validação numérica */
         .numero-input {
             background: #f8fff8 !important;
         }
@@ -462,9 +461,7 @@
     </div>
 
     <script>
-    // Funções de validação numérica
     function validarNumero(input) {
-        // Remove tudo que não é número
         input.value = input.value.replace(/\D/g, '');
     }
     
@@ -472,12 +469,10 @@
         const matriculaInput = document.getElementById("matricula");
         validarNumero(matriculaInput);
         
-        // Limitar tamanho (máximo 10 dígitos)
         if (matriculaInput.value.length > 10) {
             matriculaInput.value = matriculaInput.value.substring(0, 10);
         }
         
-        // Feedback visual
         if (matriculaInput.value.length >= 3) {
             matriculaInput.style.borderColor = "#2ecc71";
         } else {
@@ -489,12 +484,10 @@
         const ramalInput = document.getElementById("ramal");
         validarNumero(ramalInput);
         
-        // Limitar tamanho para ramal (máximo 6 dígitos)
         if (ramalInput.value.length > 6) {
             ramalInput.value = ramalInput.value.substring(0, 6);
         }
         
-        // Feedback visual
         if (ramalInput.value.length > 0) {
             ramalInput.style.borderColor = "#2ecc71";
         } else {
@@ -514,7 +507,6 @@
         }
     }
     
-    // Função principal de envio (ÚNICA - remova a duplicada)
     function enviar() {
         const nome = document.getElementById("nome").value.trim();
         const matricula = document.getElementById("matricula").value.trim();
@@ -522,27 +514,23 @@
         const descricao = document.getElementById("descricao").value.trim();
         const ramal = document.getElementById("ramal").value.trim();
         
-        // Validação básica
         if (!nome || !matricula || !setor || !descricao) {
             mostrarMensagem("Por favor, preencha todos os campos obrigatórios!", "error");
             return;
         }
         
-        // Validação específica para matrícula (deve conter apenas números)
         if (!/^\d+$/.test(matricula)) {
             mostrarMensagem("A matrícula deve conter apenas números!", "error");
             document.getElementById("matricula").focus();
             return;
         }
         
-        // Validação de tamanho mínimo para matrícula
         if (matricula.length < 3) {
             mostrarMensagem("A matrícula deve ter no mínimo 3 dígitos!", "error");
             document.getElementById("matricula").focus();
             return;
         }
         
-        // Validação específica para ramal (se preenchido, deve conter apenas números)
         if (ramal && !/^\d+$/.test(ramal)) {
             mostrarMensagem("O ramal deve conter apenas números!", "error");
             document.getElementById("ramal").focus();
@@ -567,7 +555,6 @@
         .then(res => res.json())
         .then(data => {
             if (data.sucesso) {
-                // Redirecionar para a página de sucesso com TODOS os dados
                 const params = new URLSearchParams({
                     id: data.id,
                     nome: encodeURIComponent(nome),
@@ -588,14 +575,12 @@
         });
     }
     
-    // Evento para permitir Ctrl+Enter no textarea
     document.getElementById("descricao").addEventListener("keydown", function(e) {
         if (e.key === "Enter" && e.ctrlKey) {
             enviar();
         }
     });
     
-    // Evento para pressionar Enter no campo de matrícula focar no próximo campo
     document.getElementById("matricula").addEventListener("keypress", function(e) {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -603,7 +588,7 @@
         }
     });
     
-    // Evento para pressionar Enter no campo de ramal focar no próximo campo
+    
     document.getElementById("ramal").addEventListener("keypress", function(e) {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -611,7 +596,7 @@
         }
     });
     
-    // Evento para pressionar Enter no campo de setor focar na descrição
+    
     document.getElementById("setor").addEventListener("keypress", function(e) {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -619,7 +604,7 @@
         }
     });
     
-    // Animações
+    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
