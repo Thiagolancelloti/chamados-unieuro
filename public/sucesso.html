@@ -28,7 +28,6 @@
             overflow-x: hidden;
         }
         
-        /* Engrenagens decorativas */
         .gear {
             position: absolute;
             opacity: 0.1;
@@ -69,7 +68,6 @@
             to { transform: rotate(0deg); }
         }
         
-        /* Cabeçalho */
         .header-container {
             width: 100%;
             max-width: 600px;
@@ -105,7 +103,6 @@
             margin-top: 5px;
         }
         
-        /* Container principal */
         .container {
             width: 100%;
             max-width: 500px;
@@ -132,7 +129,6 @@
             opacity: 0.1;
         }
         
-        /* Ícone de sucesso */
         .success-icon {
             font-size: 60px;
             margin-bottom: 20px;
@@ -145,7 +141,6 @@
             60% {transform: translateY(-10px);}
         }
         
-        /* Título */
         .success-title {
             color: #003d80;
             font-size: 28px;
@@ -167,7 +162,6 @@
             border-radius: 2px;
         }
         
-        /* Detalhes do chamado */
         .ticket-details {
             background: #f8faff;
             border-radius: 12px;
@@ -205,7 +199,6 @@
             font-weight: 500;
         }
         
-        /* Mensagem de confirmação */
         .confirmation-message {
             color: #27ae60;
             font-weight: 600;
@@ -217,7 +210,6 @@
             border: 1px solid rgba(46, 204, 113, 0.3);
         }
         
-        /* Botões */
         .button-container {
             display: flex;
             gap: 15px;
@@ -265,7 +257,6 @@
             background: #e0eaff;
         }
         
-        /* Rodapé */
         .footer {
             margin-top: 40px;
             color: #ffffff;
@@ -284,7 +275,6 @@
             text-decoration: underline;
         }
         
-        /* Responsividade */
         @media (max-width: 600px) {
             .container {
                 padding: 25px 20px;
@@ -315,7 +305,6 @@
             }
         }
         
-        /* Animação de entrada */
         .container {
             animation: slideUp 0.6s ease-out;
         }
@@ -331,7 +320,6 @@
             }
         }
 
-        /* Adicione isso na seção de CSS */
 .descricao-container {
     background: #f8faff;
     border-radius: 12px;
@@ -367,7 +355,6 @@
 </head>
 <body>
     
-    <!-- Engrenagens decorativas -->
     <svg class="gear gear-1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path d="M50,15 L55,35 L75,40 L55,45 L50,65 L45,45 L25,40 L45,35 Z" fill="#003d80"/>
         <circle cx="50" cy="50" r="10" fill="#f0f7ff"/>
@@ -383,7 +370,6 @@
         <circle cx="50" cy="50" r="6" fill="#f0f7ff"/>
     </svg>
 
-    <!-- Cabeçalho -->
     <div class="header-container">
         <div class="logo-container">
             <img src="EURO.png" alt="Logo UNIEURO" class="logo-img">
@@ -392,7 +378,6 @@
         <div class="subtitle">Sistema de Abertura de Chamados</div>
     </div>
 
-    <!-- Conteúdo principal -->
     <div class="container">
         <div class="success-icon">🎉</div>
         <h1 class="success-title">CHAMADO ABERTO COM SUCESSO!</h1>
@@ -448,14 +433,12 @@
         </div>
     </div>
     
-    <!-- Rodapé -->
     <div class="footer">
         Sistema de Chamados • UNIEURO © 2025 • 
         <a href="/admin" style="margin-left: 10px;">🔐 Acesso Administrativo</a>
     </div>
 
     <script>
-        // Função para obter parâmetros da URL
         function getUrlParams() {
             const params = {};
             const queryString = window.location.search.substring(1);
@@ -471,7 +454,6 @@
             return params;
         }
         
-        // Função para formatar data atual
         function formatarData() {
             const data = new Date();
             const dia = String(data.getDate()).padStart(2, '0');
@@ -483,18 +465,15 @@
             return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
         }
         
-        // Função para gerar protocolo
         function gerarProtocolo() {
             const timestamp = Date.now();
             const random = Math.floor(Math.random() * 10000);
             return `#164${timestamp}${random}`.substring(0, 16);
         }
         
-        // Carregar dados na página
 document.addEventListener('DOMContentLoaded', function() {
     const params = getUrlParams();
     
-    // Preencher os dados
     if (params.nome) {
         document.getElementById('nome').textContent = params.nome;
     } else {
@@ -520,18 +499,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (params.descricao) {
-        // Decodificar e manter quebras de linha
         const descricaoDecodificada = decodeURIComponent(params.descricao);
         document.getElementById('descricao').textContent = descricaoDecodificada;
     } else {
         document.getElementById('descricao').textContent = "Não informada";
     }
     
-    // Protocolo (ID sequencial)
 if (params.id) {
     document.getElementById('protocolo').textContent = `#${params.id}`;
     
-    // Adicionar mensagem de acompanhamento
     const confMessage = document.querySelector('.confirmation-message');
     confMessage.innerHTML = `
         ✅ Seu chamado foi registrado em nosso sistema.<br>
@@ -543,14 +519,12 @@ if (params.id) {
     document.getElementById('protocolo').textContent = `#${Date.now()}`;
 }
     
-    // Data
     if (params.data) {
         document.getElementById('data').textContent = formatarData(params.data);
     } else {
         document.getElementById('data').textContent = formatarData(new Date().toISOString());
     }
     
-    // Salvar no localStorage para histórico
     const chamadoData = {
         protocolo: document.getElementById('protocolo').textContent,
         nome: document.getElementById('nome').textContent,
@@ -565,7 +539,6 @@ if (params.id) {
     localStorage.setItem('ultimoChamado', JSON.stringify(chamadoData));
 });
             
-            // Se houver dados na URL, usar eles
             if (params.nome) {
                 document.getElementById('nome').textContent = params.nome;
             }
@@ -574,11 +547,9 @@ if (params.id) {
                 document.getElementById('setor').textContent = params.setor;
             }
             
-            // Sempre gerar novo protocolo e data atual
             document.getElementById('protocolo').textContent = gerarProtocolo();
             document.getElementById('data').textContent = formatarData();
             
-            // Salvar dados no localStorage para possível recuperação
             const chamadoData = {
                 protocolo: document.getElementById('protocolo').textContent,
                 nome: document.getElementById('nome').textContent,
@@ -590,11 +561,9 @@ if (params.id) {
             localStorage.setItem('ultimoChamado', JSON.stringify(chamadoData));
         ;
         
-        // Função para imprimir comprovante
 function imprimirComprovante() {
     const janela = window.open('', '_blank', 'width=700,height=900');
     
-    // Limitar o tamanho da descrição para não quebrar o layout
     let descricaoParaImprimir = document.getElementById('descricao').textContent;
     if (descricaoParaImprimir.length > 500) {
         descricaoParaImprimir = descricaoParaImprimir.substring(0, 500) + "...";
@@ -758,7 +727,6 @@ function imprimirComprovante() {
     janela.document.close();
 }
         
-        // Redirecionar para a página inicial após 30 segundos (opcional)
         setTimeout(() => {
             console.log('Você será redirecionado para a página inicial em breve...');
         }, 30000);
