@@ -445,7 +445,7 @@
         </div>
         
         <div class="ticket-details" id="ticketDetails">
-            <!-- Detalhes do chamado serão preenchidos aqui -->
+        
         </div>
         
         <div class="msg" id="msg"></div>
@@ -467,7 +467,7 @@
 
     <script>
         function validarNumero(input) {
-            // Garantir que seja número positivo
+            
             if (input.value < 1) {
                 input.value = 1;
             }
@@ -532,7 +532,7 @@
             const detailsDiv = document.getElementById("ticketDetails");
             const actionButtons = document.getElementById("actionButtons");
             
-            // Determinar classe do status
+            
             let statusClass = "status-aberto";
             let statusIcon = "⏳";
             if (chamado.status === "Em andamento") {
@@ -604,7 +604,7 @@
             detailsDiv.style.display = 'block';
             actionButtons.style.display = 'flex';
             
-            // Rolagem suave para os detalhes
+            
             detailsDiv.scrollIntoView({ behavior: 'smooth' });
         }
         
@@ -664,14 +664,14 @@
             janela.document.close();
         }
         
-        // Permitir buscar com Enter
+        
         document.getElementById("numeroChamado").addEventListener("keypress", function(e) {
             if (e.key === "Enter") {
                 buscarChamado();
             }
         });
         
-        // Focar no campo de busca ao carregar a página
+        
         document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("numeroChamado").focus();
         });
